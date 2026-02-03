@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GeoGenerator - Relatorios Geograficos</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap");
+      :root {
+        --bg: #0f1014;
+        --fg: #e8e6e3;
+        --muted: #a8a3a0;
+        --accent: #34d399;
+        --accent-2: #fbbf24;
+        --panel: rgba(22, 24, 30, 0.85);
+        --border: rgba(255, 255, 255, 0.08);
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(1200px 600px at 10% 10%, rgba(52, 211, 153, 0.18), transparent 60%),
+          radial-gradient(800px 500px at 85% 0%, rgba(251, 191, 36, 0.18), transparent 55%),
+          radial-gradient(700px 500px at 85% 90%, rgba(56, 189, 248, 0.12), transparent 50%),
+          #0f1014;
+        color: var(--fg);
+      }
+      header {
+        padding: 32px 20px 20px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(120deg, rgba(15, 16, 20, 0.9), rgba(22, 24, 30, 0.8));
+        backdrop-filter: blur(10px);
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 30px;
+        letter-spacing: 0.6px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        letter-spacing: 0.4px;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+      main {
+        max-width: 1050px;
+        margin: 0 auto;
+        padding: 24px 20px 40px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(8px);
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      input[type="file"],
+      select,
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        background: rgba(15, 16, 20, 0.9);
+        color: var(--fg);
+      }
+      select:focus,
+      input[type="text"]:focus,
+      textarea:focus {
+        outline: 2px solid rgba(52, 211, 153, 0.5);
+        border-color: rgba(52, 211, 153, 0.6);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      button {
+        padding: 10px 16px;
+        border: 1px solid transparent;
+        background: linear-gradient(135deg, #34d399, #22c55e);
+        color: #0b0d0f;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+        box-shadow: 0 10px 24px rgba(34, 197, 94, 0.25);
+      }
+      button.secondary {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--fg);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: none;
+      }
+      button:hover {
+        transform: translateY(-1px);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .badge {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(52, 211, 153, 0.2);
+        font-size: 12px;
+      }
+      .field-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 12px;
+      }
+      .field-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 6px 8px;
+        border-radius: 8px;
+      }
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+        font-family: "Newsreader", "Times New Roman", serif;
+      }
+      .preview {
+        max-height: 360px;
+        overflow: auto;
+        background: rgba(10, 12, 16, 0.75);
+        border: 1px dashed rgba(255, 255, 255, 0.15);
+        padding: 12px;
+        border-radius: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th, td {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 8px 10px;
+        text-align: left;
+      }
+      th {
+        background: rgba(52, 211, 153, 0.16);
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      @media (min-width: 840px) {
+        .grid {
+          grid-template-columns: 1.2fr 0.8fr;
+        }
+        .row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .two-col {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>GeoGenerator</h1>
+      <p>Relatorios geograficos no navegador, 100% gratis para hospedar.</p>
+    </header>
+    <main>
+      <div class="grid">
+        <section class="card">
+          <h2>Entrada</h2>
+          <div class="row">
+            <div>
+              <label for="format">Tipo de arquivo</label>
+              <select id="format">
+                <option value="">Selecione...</option>
+                <option value="shapefile">Shapefile (.shp/.dbf/.shx ou .zip)</option>
+                <option value="kml">KML (.kml)</option>
+                <option value="kmz">KMZ (.kmz)</option>
+              </select>
+            </div>
+            <div>
+              <label for="title">Titulo do relatorio</label>
+              <input id="title" type="text" placeholder="Ex: Relatorio de areas" />
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            <label for="file">Arquivo(s)</label>
+            <input id="file" type="file" multiple />
+            <p class="muted">Shapefile pode ser .zip ou varios arquivos .shp/.dbf/.shx juntos.</p>
+          </div>
+          <div style="margin-top: 10px;">
+            <label for="model">Modelo</label>
+            <select id="model">
+              <option value="tabela">Tabela</option>
+              <option value="descricao">Descricao (um embaixo do outro)</option>
+            </select>
+          </div>
+          <div style="margin-top: 10px;">
+            <label for="output">Saida</label>
+            <select id="output">
+              <option value="pdf">PDF</option>
+              <option value="docx">Word (DOCX)</option>
+            </select>
+          </div>
+          <div class="actions" style="margin-top: 12px;">
+            <button id="process">Processar</button>
+            <button id="download" class="secondary" disabled>Baixar</button>
+          </div>
+          <p id="status" class="muted" style="margin-top: 8px;"></p>
+        </section>
+        <section class="card">
+          <h2>Resumo</h2>
+          <div id="summary" class="muted">Carregue um arquivo para ver o resumo.</div>
+          <div style="margin-top: 10px;">
+            <label>Campos encontrados</label>
+            <div id="fields" class="field-list"></div>
+            <p class="muted" style="margin-top: 6px;">Selecione as colunas que entram no relatorio.</p>
+            <div class="actions" style="margin-top: 6px;">
+              <button id="selectAll" class="secondary" type="button">Selecionar tudo</button>
+              <button id="clearAll" class="secondary" type="button">Limpar selecao</button>
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            <label for="template">Template de descricao (opcional)</label>
+            <textarea id="template" placeholder="Ex:\nNome: {nome}\nArea: {area}\nMunicipio: {municipio}"></textarea>
+            <p class="muted">Use {nome_da_coluna}. Se vazio, usa modelo automatico.</p>
+            <div class="actions" style="margin-top: 6px;">
+              <button id="resetTemplate" class="secondary" type="button">Template padrao</button>
+              <button id="clearAllSettings" class="secondary" type="button">Limpar tudo</button>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section class="card" style="margin-top: 16px;">
+        <h2>Preview</h2>
+        <div id="preview" class="preview muted">Nenhum dado carregado.</div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/shpjs@4.0.4/dist/shp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tmcw/togeojson@0.16.0/dist/togeojson.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.3/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+
+    <script>
+      const formatEl = document.getElementById("format");
+      const fileEl = document.getElementById("file");
+      const titleEl = document.getElementById("title");
+      const modelEl = document.getElementById("model");
+      const outputEl = document.getElementById("output");
+      const templateEl = document.getElementById("template");
+      const selectAllBtn = document.getElementById("selectAll");
+      const clearAllBtn = document.getElementById("clearAll");
+      const resetTemplateBtn = document.getElementById("resetTemplate");
+      const clearAllSettingsBtn = document.getElementById("clearAllSettings");
+      const processBtn = document.getElementById("process");
+      const downloadBtn = document.getElementById("download");
+      const statusEl = document.getElementById("status");
+      const summaryEl = document.getElementById("summary");
+      const fieldsEl = document.getElementById("fields");
+      const previewEl = document.getElementById("preview");
+
+      let latestReport = null;
+      let latestName = "relatorio";
+      let latestGeo = null;
+      let latestFields = [];
+      const STORAGE_KEY_TEMPLATE = "geogenerator_template";
+      const STORAGE_KEY_FIELDS = "geogenerator_fields";
+      const DEFAULT_TEMPLATE = "Nome: {nome}\nArea: {area}\nMunicipio: {municipio}";
+
+      function getFileKey() {
+        if (!fileEl.files || fileEl.files.length === 0) return "global";
+        const parts = Array.from(fileEl.files).map((f) => `${f.name}:${f.size}`).sort();
+        return parts.join("|");
+      }
+
+      function getFieldsStorageKey() {
+        return `${STORAGE_KEY_FIELDS}:${getFileKey()}`;
+      }
+
+      function setStatus(message) {
+        statusEl.textContent = message || "";
+      }
+
+      function readFileAsArrayBuffer(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error);
+          reader.readAsArrayBuffer(file);
+        });
+      }
+
+      function readFileAsText(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error);
+          reader.readAsText(file);
+        });
+      }
+
+      function buildSummary(geojson) {
+        const count = geojson.features ? geojson.features.length : 0;
+        const type = geojson.type || "GeoJSON";
+        summaryEl.textContent = `Tipo: ${type} | Feicoes: ${count}`;
+      }
+
+      function buildFields(geojson) {
+        fieldsEl.innerHTML = "";
+        const fields = new Set();
+        if (geojson.features) {
+          geojson.features.forEach((f) => {
+            if (f.properties) {
+              Object.keys(f.properties).forEach((k) => fields.add(k));
+            }
+          });
+        }
+        if (fields.size === 0) {
+          fieldsEl.textContent = "Nenhum campo encontrado.";
+          return [];
+        }
+        const list = Array.from(fields);
+        let savedSelection = null;
+        try {
+          savedSelection = JSON.parse(localStorage.getItem(getFieldsStorageKey()) || "null");
+        } catch {
+          savedSelection = null;
+        }
+        list.forEach((name, idx) => {
+          const label = document.createElement("label");
+          label.className = "field-item";
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.value = name;
+          checkbox.checked = savedSelection ? savedSelection.includes(name) : true;
+          checkbox.id = `field_${idx}`;
+          const text = document.createElement("span");
+          text.textContent = name;
+          label.appendChild(checkbox);
+          label.appendChild(text);
+          fieldsEl.appendChild(label);
+        });
+        latestFields = list;
+        return list;
+      }
+
+      function getSelectedFields() {
+        const checks = Array.from(fieldsEl.querySelectorAll("input[type='checkbox']"));
+        const selected = checks.filter((c) => c.checked).map((c) => c.value);
+        localStorage.setItem(getFieldsStorageKey(), JSON.stringify(selected));
+        return selected.length > 0 ? selected : latestFields;
+      }
+
+      function extractPlaceholders(templateText) {
+        const matches = templateText.match(/{([^}]+)}/g) || [];
+        return matches.map((m) => m.slice(1, -1).trim()).filter((m) => m.length > 0);
+      }
+
+      function applyTemplate(templateText, feature, fields) {
+        if (!templateText || templateText.trim().length === 0) {
+          const lines = fields.map((k) => `${k}: ${feature.properties?.[k] ?? ""}`).join("\n");
+          return lines;
+        }
+        return templateText.replace(/{([^}]+)}/g, (_, name) => {
+          const key = name.trim();
+          if (!fields.includes(key)) return "";
+          const value = feature.properties?.[key];
+          return value === undefined || value === null ? "" : String(value);
+        });
+      }
+
+      function buildPreview(geojson, model, fields) {
+        if (!geojson.features || geojson.features.length === 0) {
+          previewEl.textContent = "Nenhum dado para preview.";
+          return;
+        }
+        if (model === "tabela") {
+          const rows = geojson.features.slice(0, 10).map((f) =>
+            fields.map((k) => f.properties?.[k] ?? "")
+          );
+          let html = "<table><thead><tr>";
+          fields.forEach((k) => (html += `<th>${k}</th>`));
+          html += "</tr></thead><tbody>";
+          rows.forEach((r) => {
+            html += "<tr>";
+            r.forEach((v) => (html += `<td>${String(v)}</td>`));
+            html += "</tr>";
+          });
+          html += "</tbody></table>";
+          previewEl.innerHTML = html;
+        } else {
+          const templateText = templateEl.value;
+          const blocks = geojson.features.slice(0, 10).map((f, idx) => {
+            const text = applyTemplate(templateText, f, fields);
+            const lines = text.split("\n").join("<br>");
+            return `<div style="margin-bottom:10px;"><strong>Registro ${idx + 1}</strong><br>${lines}</div>`;
+          });
+          previewEl.innerHTML = blocks.join("");
+        }
+      }
+
+      async function parseShapefile(files) {
+        if (files.length === 1 && files[0].name.toLowerCase().endsWith(".zip")) {
+          const buffer = await readFileAsArrayBuffer(files[0]);
+          return shp.parseZip(buffer);
+        }
+        const zip = new JSZip();
+        for (const file of files) {
+          zip.file(file.name, await readFileAsArrayBuffer(file));
+        }
+        const zipped = await zip.generateAsync({ type: "arraybuffer" });
+        return shp.parseZip(zipped);
+      }
+
+      function loadScriptOnce(src) {
+        return new Promise((resolve, reject) => {
+          const existing = Array.from(document.scripts).find((s) => s.src === src);
+          if (existing) {
+            existing.onload ? existing.onload() : resolve();
+            return;
+          }
+          const script = document.createElement("script");
+          script.src = src;
+          script.async = true;
+          script.onload = () => resolve();
+          script.onerror = () => reject(new Error(`Falha ao carregar ${src}`));
+          document.head.appendChild(script);
+        });
+      }
+
+      async function ensureToGeoJSON() {
+        if (window.toGeoJSON && toGeoJSON.kml) return;
+        const sources = [
+          "https://unpkg.com/@tmcw/togeojson@0.16.0/dist/togeojson.umd.js",
+          "https://cdn.jsdelivr.net/npm/@tmcw/togeojson@0.16.0/dist/togeojson.umd.js",
+        ];
+        for (const src of sources) {
+          try {
+            await loadScriptOnce(src);
+            if (window.toGeoJSON && toGeoJSON.kml) return;
+          } catch {
+            // tenta proximo
+          }
+        }
+        throw new Error("Biblioteca KML nao carregou.");
+      }
+
+      async function parseKml(file) {
+        const text = await readFileAsText(file);
+        const dom = new DOMParser().parseFromString(text, "text/xml");
+        await ensureToGeoJSON();
+        return toGeoJSON.kml(dom);
+      }
+
+      async function parseKmz(file) {
+        const buffer = await readFileAsArrayBuffer(file);
+        const zip = await JSZip.loadAsync(buffer);
+        const kmlName = Object.keys(zip.files).find((n) => n.toLowerCase().endsWith(".kml"));
+        if (!kmlName) {
+          throw new Error("KMZ nao possui KML interno.");
+        }
+        const kmlText = await zip.file(kmlName).async("text");
+        const dom = new DOMParser().parseFromString(kmlText, "text/xml");
+        await ensureToGeoJSON();
+        return toGeoJSON.kml(dom);
+      }
+
+      function normalizeGeo(geo) {
+        if (!geo) return { type: "FeatureCollection", features: [] };
+        if (geo.type === "FeatureCollection") return geo;
+        if (Array.isArray(geo)) {
+          const features = [];
+          geo.forEach((g) => {
+            if (g.type === "FeatureCollection") {
+              features.push(...g.features);
+            }
+          });
+          return { type: "FeatureCollection", features };
+        }
+        return { type: "FeatureCollection", features: [] };
+      }
+
+      function buildTableRows(geojson, fields) {
+        return geojson.features.map((f) => fields.map((k) => f.properties?.[k] ?? ""));
+      }
+
+      function buildDescricao(geojson, fields, templateText) {
+        return geojson.features.map((f, idx) => {
+          const lines = applyTemplate(templateText, f, fields);
+          return `Registro ${idx + 1}\n${lines}`;
+        });
+      }
+
+      async function buildPdf(geojson, fields, title, model, templateText) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+        const margin = 40;
+        doc.setFont("times", "bold");
+        doc.setFontSize(16);
+        doc.text(title || "Relatorio Geografico", margin, 40);
+        doc.setFont("times", "normal");
+        doc.setFontSize(11);
+        doc.text(`Feicoes: ${geojson.features.length}`, margin, 60);
+
+        if (model === "tabela") {
+          const rows = buildTableRows(geojson, fields);
+          doc.autoTable({
+            startY: 80,
+            head: [fields],
+            body: rows,
+            styles: { font: "times", fontSize: 9 },
+            headStyles: { fillColor: [15, 93, 59] },
+          });
+        } else {
+          let y = 90;
+          const blocks = buildDescricao(geojson, fields, templateText);
+          blocks.forEach((text) => {
+            const lines = doc.splitTextToSize(text, 500);
+            if (y + lines.length * 12 > 760) {
+              doc.addPage();
+              y = 40;
+            }
+            doc.text(lines, margin, y);
+            y += lines.length * 12 + 10;
+          });
+        }
+        return doc.output("blob");
+      }
+
+      async function buildDocx(geojson, fields, title, model, templateText) {
+        const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType } = docx;
+        const children = [];
+        children.push(new Paragraph({ children: [new TextRun({ text: title || "Relatorio Geografico", bold: true, size: 28 })] }));
+        children.push(new Paragraph({ children: [new TextRun(`Feicoes: ${geojson.features.length}`)] }));
+        children.push(new Paragraph({ text: "" }));
+
+        if (model === "tabela") {
+          const header = new TableRow({
+            children: fields.map((f) => new TableCell({ children: [new Paragraph({ text: f })] })),
+          });
+          const rows = buildTableRows(geojson, fields).map((row) =>
+            new TableRow({
+              children: row.map((v) => new TableCell({ children: [new Paragraph({ text: String(v) })] })),
+            })
+          );
+          children.push(
+            new Table({
+              rows: [header, ...rows],
+              width: { size: 100, type: WidthType.PERCENTAGE },
+            })
+          );
+        } else {
+          const blocks = buildDescricao(geojson, fields, templateText);
+          blocks.forEach((text) => {
+            const lines = text.split("\n");
+            lines.forEach((line) => {
+              children.push(new Paragraph({ text: line }));
+            });
+            children.push(new Paragraph({ text: "" }));
+          });
+        }
+
+        const doc = new Document({ sections: [{ children }] });
+        return Packer.toBlob(doc);
+      }
+
+      async function processFiles() {
+        setStatus("");
+        downloadBtn.disabled = true;
+        latestReport = null;
+        latestGeo = null;
+
+        const format = formatEl.value;
+        if (!format) {
+          setStatus("Selecione o tipo de arquivo.");
+          return;
+        }
+        if (!fileEl.files || fileEl.files.length === 0) {
+          setStatus("Selecione o(s) arquivo(s).");
+          return;
+        }
+
+        setStatus("Processando...");
+        try {
+          let geo = null;
+          const files = Array.from(fileEl.files);
+          if (format === "shapefile") {
+            geo = await parseShapefile(files);
+          } else if (format === "kml") {
+            geo = await parseKml(files[0]);
+          } else if (format === "kmz") {
+            geo = await parseKmz(files[0]);
+          }
+          const geojson = normalizeGeo(geo);
+          latestGeo = geojson;
+          if (!geojson.features || geojson.features.length === 0) {
+            setStatus("Arquivo lido, mas sem feicoes encontradas.");
+            return;
+          }
+          buildFields(geojson);
+          const fields = getSelectedFields();
+          buildSummary(geojson);
+          buildPreview(geojson, modelEl.value, fields);
+          setStatus(`Processado com sucesso. Feicoes: ${geojson.features.length}`);
+          downloadBtn.disabled = false;
+        } catch (err) {
+          console.error(err);
+          setStatus(`Erro: ${err.message || err}`);
+        }
+      }
+
+      async function generateReport() {
+        if (!latestGeo) {
+          setStatus("Nenhum dado processado.");
+          return;
+        }
+        const fields = getSelectedFields();
+        const title = titleEl.value.trim();
+        const model = modelEl.value;
+        const output = outputEl.value;
+        const templateText = templateEl.value || "";
+
+        if (model === "descricao" && templateText.trim().length > 0) {
+          const placeholders = extractPlaceholders(templateText);
+          const missing = placeholders.filter((p) => !fields.includes(p));
+          if (missing.length > 0) {
+            setStatus(`Aviso: campos no template nao selecionados: ${missing.join(", ")}`);
+          }
+        }
+
+        setStatus("Gerando arquivo...");
+        if (output === "pdf") {
+          latestReport = await buildPdf(latestGeo, fields, title, model, templateText);
+          latestName = "relatorio.pdf";
+        } else {
+          latestReport = await buildDocx(latestGeo, fields, title, model, templateText);
+          latestName = "relatorio.docx";
+        }
+        setStatus("Pronto para baixar.");
+      }
+
+      processBtn.addEventListener("click", async () => {
+        await processFiles();
+        if (latestGeo) {
+          await generateReport();
+        }
+      });
+
+      fieldsEl.addEventListener("change", () => {
+        if (!latestGeo) return;
+        const fields = getSelectedFields();
+        buildPreview(latestGeo, modelEl.value, fields);
+      });
+
+      templateEl.addEventListener("input", () => {
+        if (!latestGeo) return;
+        if (modelEl.value !== "descricao") return;
+        localStorage.setItem(STORAGE_KEY_TEMPLATE, templateEl.value);
+        const fields = getSelectedFields();
+        buildPreview(latestGeo, modelEl.value, fields);
+      });
+
+      modelEl.addEventListener("change", () => {
+        if (!latestGeo) return;
+        const fields = getSelectedFields();
+        buildPreview(latestGeo, modelEl.value, fields);
+      });
+
+      selectAllBtn.addEventListener("click", () => {
+        const checks = Array.from(fieldsEl.querySelectorAll("input[type='checkbox']"));
+        checks.forEach((c) => (c.checked = true));
+        if (!latestGeo) return;
+        const fields = getSelectedFields();
+        buildPreview(latestGeo, modelEl.value, fields);
+      });
+
+      clearAllBtn.addEventListener("click", () => {
+        const checks = Array.from(fieldsEl.querySelectorAll("input[type='checkbox']"));
+        checks.forEach((c) => (c.checked = false));
+        if (!latestGeo) return;
+        const fields = getSelectedFields();
+        buildPreview(latestGeo, modelEl.value, fields);
+      });
+
+      resetTemplateBtn.addEventListener("click", () => {
+        templateEl.value = DEFAULT_TEMPLATE;
+        localStorage.setItem(STORAGE_KEY_TEMPLATE, DEFAULT_TEMPLATE);
+        if (!latestGeo) return;
+        if (modelEl.value !== "descricao") return;
+        const fields = getSelectedFields();
+        buildPreview(latestGeo, modelEl.value, fields);
+      });
+
+      clearAllSettingsBtn.addEventListener("click", () => {
+        const checks = Array.from(fieldsEl.querySelectorAll("input[type='checkbox']"));
+        checks.forEach((c) => (c.checked = true));
+        localStorage.removeItem(getFieldsStorageKey());
+        templateEl.value = DEFAULT_TEMPLATE;
+        localStorage.setItem(STORAGE_KEY_TEMPLATE, DEFAULT_TEMPLATE);
+        if (!latestGeo) return;
+        const fields = getSelectedFields();
+        buildPreview(latestGeo, modelEl.value, fields);
+      });
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedTemplate = localStorage.getItem(STORAGE_KEY_TEMPLATE);
+        if (savedTemplate) {
+          templateEl.value = savedTemplate;
+        } else {
+          templateEl.value = DEFAULT_TEMPLATE;
+          localStorage.setItem(STORAGE_KEY_TEMPLATE, DEFAULT_TEMPLATE);
+        }
+      });
+
+      downloadBtn.addEventListener("click", () => {
+        if (!latestReport) return;
+        const url = URL.createObjectURL(latestReport);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = latestName;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      });
+    </script>
+  </body>
+</html>
