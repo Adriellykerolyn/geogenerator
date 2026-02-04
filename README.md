@@ -1,52 +1,31 @@
-:
+# 🚀 Geogenerator
 
-🚀 Geogenerator
-O Geogenerator é um sistema web em desenvolvimento voltado para a automação de relatórios geográficos. O objetivo é permitir que usuários enviem arquivos vetoriais (KML, Shapefile, GeoJSON) e obtenham relatórios estruturados de forma rápida e profissional.
+[![Status: Fase Inicial](https://img.shields.io/badge/Status-Fase%20Inicial-orange)](#)
 
-Status do Projeto: ⚠️ Em fase inicial / Prototipagem (MVP).
+O **Geogenerator** é um projeto autoral voltado para a automação de relatórios geográficos. O objetivo central é permitir que dados técnicos de arquivos espaciais sejam transformados em documentos estruturados de forma simples e intuitiva.
 
-📌 Visão do Projeto
-Este projeto nasceu da necessidade de otimizar a extração de dados geográficos para gestão pública e planejamento urbano. O fluxo planejado consiste em:
+## 📌 Sobre o Projeto
+Este repositório representa a fase de prototipagem e estudo de interface. Atualmente, o projeto foca na experiência do usuário (UX) e na organização visual necessária para lidar com dados de geoprocessamento.
 
-Upload de arquivos geográficos.
+> **Nota:** O projeto está em fase inicial. O foco atual é o desenvolvimento do Front-end e a estruturação da lógica de negócio.
 
-Identificação automática de atributos (Colunas).
+## 🛠️ Tecnologias Já Utilizadas
+Nesta etapa, desenvolvi a interface utilizando:
+* **HTML5**: Estruturação semântica de formulários e seções de instruções.
+* **CSS3**: Layout responsivo com Flexbox, Design System em Dark Mode e hierarquia visual avançada.
 
-Seleção de parâmetros de agrupamento pelo usuário.
+## 🎯 O que pretendo desenvolver (Próximos Passos)
+Para o amadurecimento do software e meu aprendizado pessoal, irei implementar:
 
-Geração de relatórios em formatos editáveis (Word/PDF).
+1. **Interatividade (JavaScript)**:
+    * Captura de eventos de formulário e manipulação dinâmica de elementos da página.
+    * Integração com APIs para processamento de arquivos em tempo real.
 
-🛠️ Tecnologias Já Utilizadas (Interface)
-Até o momento, o foco do desenvolvimento foi a criação de uma interface funcional e responsiva, utilizando:
+2. **Processamento Back-end (Python)**:
+    * Implementação de rotas com frameworks web.
+    * Uso de bibliotecas de geoprocessamento (como GeoPandas) para tratar arquivos KML, SHP e GeoJSON.
+    * Geração automática de arquivos Word (.docx) e PDF.
 
-HTML5: Estruturação semântica do formulário de captura e instruções de uso.
-
-CSS3: Estilização moderna com foco em UX (User Experience), utilizando variáveis para temas escuros, layouts flexíveis (Flexbox) e design responsivo para dispositivos móveis.
-
-🎯 Próximos Passos (O que vou desenvolver)
-Para aprender o funcionamento do sistema de ponta a ponta, as próximas etapas de estudo e implementação serão:
-
-Lógica de Programação (JavaScript):
-
-Aprender a manipular o DOM para capturar os dados do formulário.
-
-Estudar como realizar requisições assíncronas (API Fetch).
-
-Explorar bibliotecas para leitura de arquivos no navegador.
-
-Desenvolvimento Back-end (Python):
-
-Estudar o framework Flask ou Django para criação de rotas.
-
-Aprender a biblioteca GeoPandas para manipular dados espaciais reais.
-
-Implementar a geração de documentos .docx via código.
-
-Processamento de Dados e IA:
-
-Entender como converter diferentes formatos geográficos para GeoJSON.
-
-Estudar a integração de modelos de linguagem para geração de textos descritivos automáticos baseados nos dados.
-
-👩‍💻 Autora
-Adrielly Souza Estudante de Engenharia de Software, com foco em soluções tecnológicas para geoprocessamento e sustentabilidade
+## 👩‍💻 Autora
+**Adrielly Souza**
+*Estudante de Engenharia de Software focada em soluções para problemas reais.*
