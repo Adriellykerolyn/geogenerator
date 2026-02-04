@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerador de relatórios geográficos - Converta seus arquivos KML, KMZ, Shapefile e GeoJSON em relatórios estruturados">
+    <title>Geogenerator - Gerador de Relatórios Geográficos</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+    <header>
+        <h1>Bem-vindo ao Geogenerator!</h1>
+        <p><strong>Este é um gerador de relatórios geográficos</strong></p>
+    </header>
+
+    <main class="instructions-container">
+
+        <section class="card-instrucoes bloco-topo">
+            <h2>Instruções de uso:</h2>
+            <p>Para utilizar o Geogenerator corretamente, certifique-se que os seus arquivos sigam os requisitos abaixo:</p>
+        </section>
+
+        <div class="container-detalhes">
+            <section class="card-instrucoes">
+                <h3>Tipo de arquivos aceitos:</h3>
+                <ul>
+                    <li>Kml / Kmz</li>
+                    <li>Shapefile (.zip)</li>
+                    <li>GeoJSON</li>
+                </ul>
+            </section>
+
+            <section class="card-instrucoes">
+                <h3>Sistema de Coordenadas:</h3>
+                <ul>
+                    <li>WGS 84 (Geográfico)</li>
+                </ul>
+                <p class="muted"><strong>OBS:</strong> Arquivos em SIRGAS 2000 são aceitos, desde que não estejam projetados em UTM.</p>
+            </section>
+        </div>
+
+        <section class="card-instrucoes">
+            <h3>1. Envio do Arquivo Geográfico</h3>
+            <div class="form-group">
+                <label for="format">Tipo de arquivo *</label>
+                <select id="format" required aria-describedby="format-help">
+                    <option value="">Selecione...</option>
+                    <option value="kml">KML</option>
+                    <option value="kmz">KMZ</option>
+                    <option value="shapefile">Shapefile</option>
+                    <option value="geojson">GeoJSON</option>
+                </select>
+                <small id="format-help" class="muted">Escolha o formato do seu arquivo geográfico</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="arquivo">Selecione o arquivo *</label>
+                <input type="file" id="arquivo" multiple accept=".kml,.kmz,.shp,.dbf,.shx,.zip,.geojson" required aria-describedby="arquivo-help">
+                <small id="arquivo-help" class="muted">Tamanho máximo: 50MB</small>
+            </div>
+            <div id="arquivo-erro" class="erro" style="display: none; color: #d32f2f; margin-top: 10px;"></div>
+        </section>
+
+        <section class="card-instrucoes" id="config-colunas">
+            <h3>Seleção de Dados</h3>
+            <p>Selecione os campos que deseja incluir no relatório:</p>
+            <div id="Lista-de-colunas-dinâmicas" role="region" aria-live="polite">
+                <span class="muted">Aguardando o envio do arquivo...</span>
+            </div>
+        </section>
+
+        <section class="card-instrucoes">
+            <h3>2. Organização dos Dados</h3>
+            <div class="form-group">
+                <label for="coluna-agrupadora">Agrupar registros por qual coluna?</label>
+                <select id="coluna-agrupadora" aria-describedby="agrupamento-help">
+                    <option value="">Sem agrupamento (Lista simples)</option>
+                    <option value="__DYNAMIC__">Colunas dinâmicas </option>
+                </select>
+                <small id="agrupamento-help" class="muted">As colunas aparecerão após o carregamento do arquivo.</small>
+            </div>
+            
+            <fieldset>
+                <legend><strong>Modelo de layout:</strong></legend>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="layout" value="lista" checked>
+                        Layout 1: Lista de registros
+                    </label>
+                    <label>
+                        <input type="radio" name="layout" value="tabela">
+                        Layout 2: Tabela com agrupamento
+                    </label>
+                </div>
+            </fieldset>
+        </section>
+
+        <section class="card-instrucoes">
+            <h3>3. Configurações do Relatório</h3>
+            <div class="form-group">
+                <label for="titulo-relatorio">Título que aparecerá no documento *</label>
+                <input type="text" id="titulo-relatorio" placeholder="Ex: Relatório de Unidades de Conservação" required aria-describedby="titulo-help" maxlength="200">
+                <small id="titulo-help" class="muted">Máximo 200 caracteres</small>
+            </div>
+        </section>
+
+        <section class="card-instrucoes">
+            <h3>4. Geração do Relatório</h3>
+            <button id="gerar-relatorio" aria-label="Gerar relatório em PDF" disabled>Gerar Relatório</button>
+            <div id="download-link" role="status" aria-live="polite" style="margin-top: 15px;"></div>
+            <p id="status-processamento" class="muted" style="font-size: 14px;" role="status" aria-live="polite"></p>
+        </section>
+
+    </main> 
+
+    <footer>
+        <hr>
+        <p>&copy; 2026 Desenvolvido por: Adrielly Souza</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
