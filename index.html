@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geogenerator</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+    <header>
+        <h1>Bem-vindo ao Geogenerator!</h1>
+        <p><strong>Este é um gerador de relatórios geográficos</strong></p>
+    </header>
+
+    <div class="instructions-container">
+
+        <div class="card-instruções bloco-topo">
+            <h2>Instruções de uso:</h2>
+            <p>Para utilizar o Geogenerator corretamente, certifique-se que os seus arquivos sigam os requisitos abaixo:
+            </p>
+        </div>
+
+        <div class="container-detalhes">
+            <div class="card-instruções">
+                <p><strong>Tipo de arquivos aceitos:</strong></p>
+                <ul>
+                    <li>Kml / Kmz</li>
+                    <li>Shapefile (.zip)</li>
+                    <li>GeoJSON</li>
+                </ul>
+            </div>
+
+            <div class="card-instruções">
+                <p><strong>Sistema de Coordenadas:</strong></p>
+                <ul>
+                    <li>WGS 84 (Geográfico)</li>
+                </ul>
+                <p class="muted">OBS: Arquivos em SIRGAS 2000 são aceitos, desde que não estejam projetados em UTM.</p>
+            </div>
+        </div>
+
+        <div class="card-instruções">
+            <p><strong>Envie aqui o arquivo geográfico:</strong></p>
+            <label for="format">Tipo de arquivo</label>
+            <select id="format">
+                <option value="">Selecione...</option>
+                <option value="kml">KML</option>
+                <option value="kmz">KMZ</option>
+                <option value="shapefile">Shapefile</option>
+                <option value="geojson">GeoJSON</option>
+            </select>
+            <br><br>
+            <input type="file" id="arquivo" multiple accept=".kml,.kmz,.shp,.dbf,.shx,.zip,.geojson" />
+        </div>
+
+        <div class="card-instruções" id="config-colunas">
+            <h3>Seleção de Dados</h3>
+            <p>Selecione os campos que deseja incluir no relatório:</p>
+            <div id="Lista-de-colunas-dinâmicas">
+                <span class="muted">Aguardando o envio do arquivo...</span>
+            </div>
+        </div>
+
+        <div class="card-instruções">
+            <h3>2. Organização dos Dados</h3>
+            <label for="coluna-agrupadora">Agrupar registros por qual coluna?</label>
+            <select id="coluna-agrupadora">
+                <option value="">Sem agrupamento (Lista simples)</option>
+            </select>
+            <p class="muted" id="aviso-agrupamento">As colunas aparecerão após o carregamento do arquivo.</p>
+
+            <p style="margin-top: 20px;"><strong>Modelo de layout:</strong></p>
+        </div>
+
+        <section class="card-instrucoes">
+            <h3>Configurações do arquivo gerado</h3>
+            <label for="titulo-relatorio">Título que aparecerá no documento:</label>
+            <input type="text" id="titulo-relatorio"
+                placeholder="Ex: Relatório de Unidades de Conservação - Rio de Janeiro" required>
+        </section>
+
+        <div class="card-instruções">
+            <h3>3. Geração do Relatório</h3>
+            <p>Clique no botão abaixo para processar os dados:</p>
+            <button id="gerar-relatorio">Gerar Relatório</button>
+            <div id="download-link" style="margin-top: 15px;"></div>
+            <p id="status-processamento" class="muted" style="font-size: 14px;"></p>
+        </div>
+
+    </div>
+
+    <footer>
+        <hr>
+        <p>Desenvolvido por: Adrielly Souza</p>
+    </footer>
+
+</body>
+
+</html>
