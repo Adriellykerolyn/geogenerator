@@ -3,6 +3,11 @@
 [![Status: Fase Inicial](https://img.shields.io/badge/Status-Fase%20Inicial-orange)](#)
 
 O **Geogenerator** é um projeto autoral voltado para a automação de relatórios geográficos. O objetivo central é permitir que dados técnicos de arquivos espaciais sejam transformados em documentos estruturados de forma simples e intuitiva.
+---
+<img width="1861" height="898" alt="image" src="https://github.com/user-attachments/assets/9bb308ac-f09b-4aa7-ab5d-f3aa421a275a" />
+
+<img width="1883" height="742" alt="image" src="https://github.com/user-attachments/assets/606bbe28-dc5c-4d14-9d1f-280fde9a100a" />
+
 
 ## 📌 Sobre o Projeto
 
